@@ -32,7 +32,7 @@ public class UserService
                 u.Email.ToLower().Contains(searchLower));
         }
 
-        return query.Select(MapToDto).ToList();
+        return query.AsEnumerable().Select(MapToDto).ToList();
     }
 
     public UserDto? GetById(Guid id)
