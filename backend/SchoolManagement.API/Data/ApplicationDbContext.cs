@@ -127,6 +127,9 @@ public class ApplicationDbContext : DbContext
         var student3Id = Guid.Parse("30000000-0000-0000-0000-000000000006");
         var student4Id = Guid.Parse("30000000-0000-0000-0000-000000000007");
         var student5Id = Guid.Parse("30000000-0000-0000-0000-000000000008");
+        var teacher3Id = Guid.Parse("30000000-0000-0000-0000-000000000009");
+        var student6Id = Guid.Parse("30000000-0000-0000-0000-000000000010");
+        var student7Id = Guid.Parse("30000000-0000-0000-0000-000000000011");
 
         modelBuilder.Entity<User>().HasData(
             new User
@@ -229,6 +232,44 @@ public class ApplicationDbContext : DbContext
                 ClassId = class10Id,
                 CreatedAt = DateTime.UtcNow.AddMonths(-4),
                 UpdatedAt = DateTime.UtcNow.AddMonths(-4)
+            },
+            new User
+            {
+                Id = teacher3Id,
+                FullName = "Michael Brown",
+                Email = "michael.brown@school.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Teacher@123"),
+                Role = UserRole.TEACHER,
+                Phone = "+1-555-0103",
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow.AddMonths(-3),
+                UpdatedAt = DateTime.UtcNow.AddMonths(-3)
+            },
+            new User
+            {
+                Id = student6Id,
+                FullName = "Sophia Wilson",
+                Email = "sophia.wilson@school.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Student@123"),
+                Role = UserRole.STUDENT,
+                Phone = "+1-555-0206",
+                IsActive = true,
+                ClassId = class10Id,
+                CreatedAt = DateTime.UtcNow.AddMonths(-3),
+                UpdatedAt = DateTime.UtcNow.AddMonths(-3)
+            },
+            new User
+            {
+                Id = student7Id,
+                FullName = "James Taylor",
+                Email = "james.taylor@school.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Student@123"),
+                Role = UserRole.STUDENT,
+                Phone = "+1-555-0207",
+                IsActive = true,
+                ClassId = class7Id,
+                CreatedAt = DateTime.UtcNow.AddMonths(-3),
+                UpdatedAt = DateTime.UtcNow.AddMonths(-3)
             }
         );
 

@@ -17,7 +17,7 @@ public class ClassService
 
     public IEnumerable<ClassDto> GetAll()
     {
-        return _context.Classes.AsEnumerable().Select(c => MapToDto(c)).ToList();
+        return _context.Classes.ToList().Select(c => MapToDto(c)).ToList();
     }
 
     public ClassDto? GetById(Guid id)
