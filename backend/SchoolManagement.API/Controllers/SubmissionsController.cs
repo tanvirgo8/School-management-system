@@ -13,8 +13,15 @@ public class SubmissionsController : ControllerBase
     private readonly SubmissionService _service;
     public SubmissionsController(SubmissionService service) => _service = service;
 
-    private Guid CurrentUserId => Guid.Parse(User.FindFirst("userId")!.Value);
-    private string CurrentRole => User.FindFirst("role")?.Value ?? "";
+    private Guid CurrentUserId 
+    {
+        get
+        {
+            var val = User.FindFirst("userId")?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            return Guid.TryParse(val, out var guid) ? guid : Guid.Empty;
+        }
+    }
+    private string CurrentRole => User.FindFirst("role")?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "";
     private bool IsAdmin => CurrentRole == "ADMIN";
     private bool IsTeacher => CurrentRole == "TEACHER";
 

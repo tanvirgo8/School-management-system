@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { FileText } from 'lucide-react';
 import { Submission } from '@/types';
 import { submissionsService } from '@/services/submissions.service';
@@ -27,7 +28,7 @@ export default function AdminSubmissionsPage() {
         ) : (
           <div className="table-container">
             <table className="table">
-              <thead><tr><th>Student</th><th>Assignment</th><th>Submitted At</th><th>Marks</th><th>Status</th></tr></thead>
+              <thead><tr><th>Student</th><th>Assignment</th><th>Student Response</th><th>Submitted At</th><th>Marks</th><th>Status</th><th>Action</th></tr></thead>
               <tbody>
                 {submissions.map(s => (
                   <tr key={s.id}>
@@ -38,6 +39,9 @@ export default function AdminSubmissionsPage() {
                       </div>
                     </td>
                     <td className="text-slate-700 max-w-xs truncate text-sm">{s.assignmentTitle}</td>
+                    <td className="text-slate-600 text-sm max-w-xs truncate italic">
+                      {s.answer ? s.answer : <span className="text-slate-400">No text answer</span>}
+                    </td>
                     <td className="text-slate-500 text-sm">{format(new Date(s.submittedAt), 'MMM d, yyyy HH:mm')}</td>
                     <td>
                       {s.marks != null
@@ -46,6 +50,11 @@ export default function AdminSubmissionsPage() {
                       }
                     </td>
                     <td><SubmissionStatusBadge status={s.status} /></td>
+                    <td>
+                      <Link href={`/admin/submissions/${s.id}`} className="btn-ghost py-1 px-2 text-xs text-blue-600 font-semibold">
+                        View
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>

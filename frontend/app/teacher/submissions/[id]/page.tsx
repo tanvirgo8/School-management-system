@@ -26,14 +26,23 @@ export default function GradeSubmissionPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isGrading, setIsGrading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<any>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<any>({
     resolver: zodResolver(gradeSchema),
     defaultValues: { marks: 0, feedback: '' },
   });
 
   useEffect(() => {
-    submissionsService.getById(id).then(s => { setSubmission(s); setIsLoading(false); });
-  }, [id]);
+    submissionsService.getById(id).then(s => { 
+      setSubmission(s); 
+      if (s) {
+        reset({
+          marks: s.marks ?? 0,
+          feedback: s.feedback ?? '',
+        });
+      }
+      setIsLoading(false); 
+    });
+  }, [id, reset]);
 
   const onSubmit = async (data: GradeForm) => {
     if (!submission) return;
@@ -65,7 +74,11 @@ export default function GradeSubmissionPage() {
         <Link href="/teacher/submissions" className="btn-ghost p-2"><ArrowLeft className="w-4 h-4" /></Link>
         <div>
           <h1 className="text-xl font-bold text-slate-900">Grade Submission</h1>
-          <p className="text-sm text-slate-500">{submission.assignmentTitle}</p>
+          <p className="text-sm">
+            <Link href={`/teacher/assignments/${submission.assignmentId}`} className="text-blue-600 hover:underline font-medium">
+              {submission.assignmentTitle}
+            </Link>
+          </p>
         </div>
       </div>
 

@@ -38,7 +38,7 @@ export default function TeacherSubmissionsPage() {
         ) : (
           <div className="table-container">
             <table className="table">
-              <thead><tr><th>Student</th><th>Assignment</th><th>Submitted At</th><th>Marks</th><th>Status</th><th>Action</th></tr></thead>
+              <thead><tr><th>Student</th><th>Assignment</th><th>Student Response</th><th>Submitted At</th><th>Marks</th><th>Status</th><th>Action</th></tr></thead>
               <tbody>
                 {filtered.map(s => (
                   <tr key={s.id}>
@@ -48,7 +48,14 @@ export default function TeacherSubmissionsPage() {
                         <p className="text-xs text-slate-500">{s.studentEmail}</p>
                       </div>
                     </td>
-                    <td className="text-slate-700 text-sm max-w-xs truncate">{s.assignmentTitle}</td>
+                    <td className="text-sm max-w-xs truncate">
+                      <Link href={`/teacher/assignments/${s.assignmentId}`} className="text-blue-600 hover:underline font-medium">
+                        {s.assignmentTitle}
+                      </Link>
+                    </td>
+                    <td className="text-slate-600 text-sm max-w-xs truncate italic">
+                      {s.answer ? s.answer : <span className="text-slate-400">No text answer</span>}
+                    </td>
                     <td className="text-slate-500 text-sm">{format(new Date(s.submittedAt), 'MMM d, HH:mm')}</td>
                     <td>
                       {s.marks != null
@@ -58,7 +65,7 @@ export default function TeacherSubmissionsPage() {
                     </td>
                     <td><SubmissionStatusBadge status={s.status} /></td>
                     <td>
-                      <Link href={`/teacher/submissions/${s.id}`} className="btn-ghost py-1 px-2 text-xs text-blue-600">
+                      <Link href={`/teacher/submissions/${s.id}`} className="btn-ghost py-1 px-2 text-xs text-blue-600 font-semibold">
                         {s.status === 'GRADED' ? 'View' : 'Grade'}
                       </Link>
                     </td>
